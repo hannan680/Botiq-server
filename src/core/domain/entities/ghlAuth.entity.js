@@ -184,9 +184,9 @@ class GHLAuth {
           // If not the specific message, fallback to general token refresh logic
           try {
             const newAccessToken = await this.refreshAccessToken(resourceId);
-            originalRequest.headers[
-              "Authorization"
-            ] = `Bearer ${newAccessToken.access_token}`;
+            originalRequest.headers["Authorization"] = `Bearer ${decrypt(
+              newAccessToken.access_token
+            )}`;
             return axiosInstance(originalRequest);
           } catch (err) {
             // Handle token refresh failure
