@@ -28,7 +28,7 @@ class GHLAuth {
 
       // const refreshToken = company.refresh_token;
       const refreshToken = decrypt(company.refresh_token);
-
+      console.log(refreshToken);
       const userType = company.locationId ? "Location" : "Company";
 
       const response = await axios.post(
@@ -184,9 +184,9 @@ class GHLAuth {
           // If not the specific message, fallback to general token refresh logic
           try {
             const newAccessToken = await this.refreshAccessToken(resourceId);
-            originalRequest.headers["Authorization"] = `Bearer ${decrypt(
-              newAccessToken.access_token
-            )}`;
+            originalRequest.headers[
+              "Authorization"
+            ] = `Bearer ${newAccessToken.access_token}`;
             return axiosInstance(originalRequest);
           } catch (err) {
             // Handle token refresh failure
