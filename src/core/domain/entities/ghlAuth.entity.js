@@ -25,12 +25,13 @@ class GHLAuth {
       if (!company) {
         throw new GHLResourceNotFoundError("Company or Location");
       }
-
+      console.log(company, "COmpany Refresh");
       // const refreshToken = company.refresh_token;
       const refreshToken = decrypt(company.refresh_token);
-      console.log(refreshToken);
-      const userType = company.locationId ? "Location" : "Company";
 
+      console.log(refreshToken, "Decrypted Refresh Token");
+      const userType = company.locationId ? "Location" : "Company";
+      console.log(userType, "userType");
       const response = await axios.post(
         "https://services.leadconnectorhq.com/oauth/token",
         new URLSearchParams({
