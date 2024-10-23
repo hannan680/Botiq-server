@@ -15,8 +15,6 @@ exports.ssoDecryption = catchAsync(async (req, res, next) => {
       return next(new AppError("UNAUTHORIZED", 401));
     }
 
-    console.log(data, "Decrypted SSO Data");
-
     req.locationData = data;
     next();
   } catch (err) {

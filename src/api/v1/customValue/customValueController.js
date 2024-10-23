@@ -37,7 +37,6 @@ exports.updateCustomValue = catchAsync(async (req, res) => {
     name,
     value
   );
-  console.log("Updated Custom Value:", updatedValue);
   res.status(200).json({
     status: "success",
     data: updatedValue,
@@ -58,7 +57,6 @@ exports.createCustomValue = catchAsync(async (req, res) => {
     name,
     value
   );
-  console.log("Created Custom Value:", createdValue);
   res.status(201).json({
     status: "success",
     data: createdValue,

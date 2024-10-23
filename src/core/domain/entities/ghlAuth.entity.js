@@ -25,7 +25,6 @@ class GHLAuth {
       if (!company) {
         throw new GHLResourceNotFoundError("Company or Location");
       }
-      console.log(company, "COmpany Refresh");
       // const refreshToken = company.refresh_token;
       const refreshToken = decrypt(company.refresh_token);
 

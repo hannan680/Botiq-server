@@ -115,7 +115,6 @@ exports.getPublishedEmployees = catchAsync(async (req, res, next) => {
 
 exports.getAiEmployeeById = catchAsync(async (req, res, next) => {
   const aiEmployee = await AiEmployee.findById(req.params.id);
-  console.log(aiEmployee);
   if (!aiEmployee) {
     return next(new AppError("AI Employee not found", 404));
   }
@@ -163,7 +162,6 @@ exports.updateAiEmployee = catchAsync(async (req, res, next) => {
   if (req.body.imageUrl) {
     updateData.image = req.body.imageUrl;
   }
-  console.log(customFields, "Custom Fields", updateData);
   const updatedAiEmployee = await AiEmployee.findById(req.params.id);
 
   if (!updatedAiEmployee) {

@@ -5,7 +5,6 @@ const firebase = require("../configs/firebase");
 const restrict = (requiredRole) => {
   return async (req, res, next) => {
     const idToken = req.headers.authorization?.split(" ")[1]; // Get the token from Authorization header
-    console.log(req.body, "Updated Data");
 
     if (!idToken) {
       return res.status(401).send("Unauthorized: No token provided");
@@ -27,7 +26,6 @@ const restrict = (requiredRole) => {
       }
 
       const userData = userSnapshot.data();
-      console.log(userData);
       const userRole = userData.role;
 
       if (userRole === requiredRole) {

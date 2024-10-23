@@ -4,8 +4,15 @@ const systemPrompt = require("./systemPrompt");
 const ApiKey = require("../../../infrastructure/database/models/apiKey.model");
 const { decrypt } = require("../../../core/utils/encryption");
 const AiModalInstructions = require("../../../infrastructure/database/models/aiModelInstructions");
+const getOrCreateAssistant = require("../../../core/utils/getOrCreateAssistant");
 
 const openAIService = new OpenAIService(process.env.OPEN_AI_API_KEY);
+// const assistant = getOrCreateAssistant(
+//   "6709dd493496f5a842eb2dcf",
+//   systemPrompt,
+//   openAIService
+// );
+// console.log(assistant, "Assistant");
 
 exports.gptResponse = async (req, res) => {
   try {
@@ -23,12 +30,24 @@ exports.gptResponse = async (req, res) => {
     let thread = threadId
       ? { id: threadId }
       : await openAIService.createThread();
-    const instruction = await AiModalInstructions.findById(
-      "6709dd493496f5a842eb2dcf"
+    // const instruction = await AiModalInstructions.findById(
+    //   "6709dd493496f5a842eb2dcf"
+    // );
+    // let aiInstructions = instruction?.prompt || systemPrompt;
+    // console.log("AiInstruction", aiInstructions);
+    // const assistant = await openAIService.createAssistant(aiInstructions);
+    let assistant;
+    const result = await getOrCreateAssistant(
+      "6709dd493496f5a842eb2dcf",
+      systemPrompt,
+      openAIService
     );
-    let aiInstructions = instruction?.prompt || systemPrompt;
-    console.log("AiInstruction", aiInstructions);
-    const assistant = await openAIService.createAssistant(aiInstructions);
+    if (result?.assistant) {
+      assistant = result?.assistant;
+    } else {
+      throw Error("assistant not found");
+    }
+
     await openAIService.addMessageToThread(thread.id, userMessage);
 
     res.writeHead(200, {
@@ -107,7 +126,6 @@ exports.chatAnthropicResponse = async (req, res) => {
     const { messages } = req.body;
     const { activeLocation: locationId } = req.locationData; // Assuming location is passed in req.location
     const provider = "CLAUDE"; // Provider for Anthropic is CLAUDE
-    console.log("LocationData", locationId);
     // Validate messages
     if (!messages || !messages.length) {
       return res.status(400).json({ error: "Messages are required" });
@@ -119,7 +137,6 @@ exports.chatAnthropicResponse = async (req, res) => {
       "6709dd57b67e93a901efb564"
     );
     let aiInstructions = instruction?.prompt || systemPrompt;
-    console.log("AiInstruction", aiInstructions);
 
     if (!apiKeyRecord) {
       return res

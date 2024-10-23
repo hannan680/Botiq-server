@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const aiModalInstructionsSchema = new Schema({
+  assistantId: {
+    type: String,
+  },
   modelName: {
     type: String,
     required: true,

@@ -45,13 +45,11 @@ exports.getAllIndustries = async (req, res) => {
 // Fetch previous answers along with the related industry based on locationId
 exports.getPreviousAnswers = async (req, res) => {
   const { locationId } = req.params; // Use locationId from the route parameters
-  console.log(locationId, "line-46");
   try {
     // Find the company by locationId and populate the industry reference
     const company = await Location.findOne({ locationId })
       .populate("industryId") // Populate the industryId to get full industry details
       .exec();
-    console.log("Location......", company);
     if (!company) {
       return res.status(404).json({ error: "Company not found" });
     }
@@ -61,7 +59,6 @@ exports.getPreviousAnswers = async (req, res) => {
       return res.status(404).json({ error: "Nothing to update" });
     }
     const industry = company.industryId;
-    console.log(company);
     res.status(200).json({
       industry: {
         industryId: industry._id,

@@ -109,20 +109,16 @@ exports.decryptSSO = catchAsync(async (req, res, next) => {
     throw new AppError("Please send a valid key", 400);
   }
 
-  console.log(key, "Key");
   const data = decryptSSOData(key);
   if (!data) {
     throw new AppError("UNAUTHORIZED ", 401);
   }
-  console.log(data, "Data");
 
   if (data.activeLocation) {
     const location = await Location.findOne({
       companyId: data.companyId,
       locationId: data.activeLocation,
     });
-
-    console.log(location, "Location");
 
     if (!location) {
       await getAndUpdateLocationAccessToken(

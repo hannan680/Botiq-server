@@ -39,7 +39,6 @@ exports.getGeneratedPrompt = catchAsync(async (req, res) => {
 
 exports.savePrompt = catchAsync(async (req, res) => {
   const { locationId } = req.params;
-  console.log(locationId);
   const { employeeId, answers, prompt, customFields } = req.body;
 
   // Validate locationId and required fields

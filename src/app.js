@@ -19,9 +19,6 @@ app.use(cors(corsOptions));
 app.set("trust proxy", 1);
 app.use(helmet());
 
-console.log(corsOptions);
-console.log(cors);
-
 // Body parser
 app.use("/api/v1/bots", express.static(path.join(__dirname, "../bots")));
 
